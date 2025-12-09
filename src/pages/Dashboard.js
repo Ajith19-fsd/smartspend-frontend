@@ -125,6 +125,8 @@ export default function Dashboard() {
     remaining: 0,
     totalBudget: 0,
   });
+  const [categoryData, setCategoryData] = useState({});
+  const [incomeExpense, setIncomeExpense] = useState({});
   const [recentExpenses, setRecentExpenses] = useState([]);
   const [allExpenses, setAllExpenses] = useState([]);
   const [monthlyTrend, setMonthlyTrend] = useState([]);
@@ -150,6 +152,8 @@ export default function Dashboard() {
       console.log("Income vs Expense:", res3.data);
 
       setSummary(res1.data);
+      setCategoryData(res2.data);
+      setIncomeExpense(res3.data);
     } catch (err) {
       console.error("Dashboard error:", err);
     }
@@ -171,6 +175,7 @@ export default function Dashboard() {
         params: { year },
       });
 
+      // Convert Trend Object
       const trendObj = resTrend.data;
       const months = [
         "Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"
@@ -209,6 +214,12 @@ export default function Dashboard() {
       const url = type === "excel" ? "/api/reports/excel" : "/api/reports/pdf";
       const res = await api.get(url, {
         responseType: "blob",
+        params: {
+          // optional filters
+          // category: "Food",
+          // startDate: "2025-12-01",
+          // endDate: "2025-12-31"
+        },
       });
 
       const blob = new Blob([res.data], {

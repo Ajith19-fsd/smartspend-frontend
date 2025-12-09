@@ -1,5 +1,5 @@
 // src/pages/Budget.js
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import api from "../api/axiosConfig";
 
 export default function Budget() {
@@ -10,19 +10,18 @@ export default function Budget() {
   const token = localStorage.getItem("token");
   const config = { headers: { Authorization: `Bearer ${token}` } };
 
-  // Wrap fetchBudgets in useCallback to avoid useEffect warnings
-  const fetchBudgets = useCallback(async () => {
+  const fetchBudgets = async () => {
     try {
       const res = await api.get("/api/budgets", config);
       setBudgets(res.data);
     } catch (error) {
       alert("⚠️ Failed to fetch budgets");
     }
-  }, [config]);
+  };
 
   useEffect(() => {
     fetchBudgets();
-  }, [fetchBudgets]);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

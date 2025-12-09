@@ -1,5 +1,5 @@
 // src/pages/Expenses.js
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import api from "../api/axiosConfig";
 
 export default function Expenses() {
@@ -8,7 +8,7 @@ export default function Expenses() {
     title: "",
     amount: "",
     category: "",
-    type: "EXPENSE",
+    type: "EXPENSE", // default uppercase
     date: "",
     description: "",
   });
@@ -18,23 +18,27 @@ export default function Expenses() {
   const token = localStorage.getItem("token");
   const config = { headers: { Authorization: `Bearer ${token}` } };
 
-  // Wrap fetchExpenses in useCallback
-  const fetchExpenses = useCallback(async () => {
+  const fetchExpenses = async () => {
     try {
       const res = await api.get("/api/expenses", config);
       setExpenses(res.data);
     } catch (err) {
       alert("⚠️ Failed to fetch expenses");
     }
-  }, [config]);
+  };
 
   useEffect(() => {
     fetchExpenses();
-  }, [fetchExpenses]);
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm({ ...form, [name]: name === "type" ? value.toUpperCase() : value });
+    // ensure type is always uppercase
+    if (name === "type") {
+      setForm({ ...form, [name]: value.toUpperCase() });
+    } else {
+      setForm({ ...form, [name]: value });
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -49,7 +53,7 @@ export default function Expenses() {
         await api.post("/api/expenses", payload, config);
         alert("🎉 Expense Added Successfully");
       }
-
+      // Reset form with uppercase default
       setForm({
         title: "",
         amount: "",
