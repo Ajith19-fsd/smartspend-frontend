@@ -1,13 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global dark gradient background */
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(135deg, #110051, #0b3cdc, #00005a);
+  min-height: 100vh;
+  color: #e2e8f0; /* soft white */
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* Force readable text inside inputs/buttons */
+input, button {
+  color: #ffffff !important;
+}
+
+/* Glassmorphism box */
+.glass-box {
+  background: rgba(44, 3, 166, 0.844);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(22, 17, 65, 0.2);
+  border-radius: 1rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  transition: all 0.4s ease-in-out;
+}
+
+/* Float animation */
+@keyframes floatBox {
+  0% { transform: translateY(-15px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+.animate-float {
+  animation: floatBox 0.6s ease-in-out forwards;
+}
+
+/* Slide-in animation */
+@keyframes slideIn {
+  0% { opacity: 0; transform: translateX(30px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+.animate-slide-in {
+  animation: slideIn 0.4s ease forwards;
 }
